@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -54,7 +55,7 @@ public class ProgrammaEvento {
 			 String[] loremArr = lorem.split(" ");
 			 String titolo = loremArr[rnd.nextInt(loremArr.length)];
 			 
-			 LocalDate today = LocalDate.now();
+			 LocalDate today = LocalDate.now().plusDays(1);
 			 LocalDate date = today.plusDays(rnd.nextInt(30));
 			 
 			 Integer totalPlaces = rnd.nextInt(500);
@@ -79,7 +80,10 @@ public class ProgrammaEvento {
 				int hour = rnd.nextInt(24);
 				int base5 = rnd.nextInt(12);
 				int minutes = 5 * base5;
-				String strTime = hour+":"+minutes;
+				
+				String strHour = hour <10 ? "0"+hour : hour + "";
+				String strMinutes = minutes <10 ? "0"+minutes : minutes + "";
+				String strTime = strHour + ":" + strMinutes;
 				LocalTime time = LocalTime.parse(strTime);
 				
 				BigDecimal price = new BigDecimal(rnd.nextFloat(200.99f));
@@ -114,11 +118,30 @@ public class ProgrammaEvento {
 		for(Evento ev : getEventi()) {
 			
 			if(ev.getData().equals(date)) {
-				eventi.add(ev);
+				eventiInData.add(ev);
 			}
 		}
 		
 		return eventiInData;
+		
+	}
+	
+	public Map<LocalDate, List<Evento>> getEventiOnDate(){
+		
+		Set<LocalDate> dates = new HashSet<>();
+		
+		for(Evento ev : getEventi()) {
+			dates.add(ev.getData());
+		}
+		
+		Map<LocalDate, List<Evento>> dateEventMap = new HashMap<>();
+		
+		for(LocalDate date : dates) {
+			
+			dateEventMap.put(date, getEventiOnDate(date));
+		}
+	
+		return dateEventMap;
 		
 	}
 	
@@ -135,20 +158,13 @@ public class ProgrammaEvento {
 	
 	public void getProgramma() {
 		
-		Map <LocalDate,List<Evento>>  datesEvents = new HashMap <>();
+		System.out.println(getTitolo());
 		
-		Set<LocalDate> dates = new HashSet<>();
+		getEventi().sort(Comparator.comparing(event->event.getData()));
 		
 		for(Evento ev : getEventi()) {
 			
-			dates.add(ev.getData());
-			
-		}
-		
-		for(LocalDate date : dates) {
-			
-			datesEvents.put(date, getEventiOnDate(date));
-			
+			System.out.println(ev.getData() + "-" + ev.getTitolo());
 		}
 	}
 	

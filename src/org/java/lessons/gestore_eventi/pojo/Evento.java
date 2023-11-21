@@ -166,7 +166,7 @@ public class Evento {
 		
 		
 		
-		return getFormattedStrDate() + "-" + getTitolo();	
+		return getFormattedStrDate() + " - " + getTitolo();	
 	}
 
 }

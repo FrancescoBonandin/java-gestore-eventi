@@ -49,7 +49,7 @@ public class Concerto extends Evento {
 	public String toString() {
 		
 		
-		String str = getFormattedStrDate() + " " + getFormattedStrHour() + "-" + getTitolo() + "-"  + getFormattedStrPrezzo();
+		String str = getFormattedStrDate() + " " + getFormattedStrHour() + " - " + getTitolo() + " - "  + getFormattedStrPrezzo();
 		return str;
 	}
 	
