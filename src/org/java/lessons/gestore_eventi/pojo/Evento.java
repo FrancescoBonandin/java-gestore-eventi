@@ -4,10 +4,10 @@ import java.time.LocalDate;
 
 public class Evento {
 	
-	private String titolo;
-	private LocalDate data;
-	private Integer totalPlaces;
-	private Integer reservedPlaces;
+	protected String titolo;
+	protected LocalDate data;
+	protected Integer totalPlaces;
+	protected Integer reservedPlaces;
 	
 	 
 	
@@ -59,7 +59,7 @@ public class Evento {
 		return totalPlaces;
 	}
 	
-	private void setTotalPlaces(Integer totalPlaces) throws Exception {
+	protected void setTotalPlaces(Integer totalPlaces) throws Exception {
 		
 		if(totalPlaces > 0) {
 			
@@ -76,7 +76,7 @@ public class Evento {
 		return reservedPlaces;
 	}
 
-	private void setReservedPlaces(Integer reservedPlaces) {
+	protected void setReservedPlaces(Integer reservedPlaces) {
 		this.reservedPlaces = reservedPlaces;
 	}
 	
@@ -133,6 +133,15 @@ public class Evento {
 		
 	}
 	
+	public String getFormattedStrDate() {
+		
+		String strFormattedDate = getData().getDayOfMonth() + "/"
+				+ getData().getMonthValue() +"/"
+				+ getData().getYear();
+		return strFormattedDate;
+		
+	}
+	
 	public int getAvailablePlaces() {
 		
 		int availablePlaces = getTotalPlaces() - getReservedPlaces();
@@ -147,7 +156,7 @@ public class Evento {
 	
 	public boolean hasReservedPlaces() {
 		
-		if(getReservedPlaces() >0) return true;
+		if(getReservedPlaces() > 0) return true;
 		else return false;
 	}
 	
@@ -155,11 +164,9 @@ public class Evento {
 	
 	public String toString() {
 		
-		String strFormattedDate = getData().getDayOfMonth() + "/"
-								+ getData().getMonthValue() +"/"
-								+ getData().getYear();
 		
-		return	strFormattedDate + "-" + getTitolo();	
+		
+		return getFormattedStrDate() + "-" + getTitolo();	
 	}
 
 }
