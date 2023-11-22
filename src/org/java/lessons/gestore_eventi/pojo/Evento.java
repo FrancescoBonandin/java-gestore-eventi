@@ -37,12 +37,11 @@ public class Evento {
 	public void setData(LocalDate data) throws Exception {
 		
 		LocalDate now = LocalDate.now();
-		
-		
+			
 		System.out.println("today : " + now);
 		System.out.println("event date : " + data);
 		
-		if (now.isBefore(data)) {
+		if (now.isBefore(data) || now.equals(data)) {
 			
 			this.data = data;
 		}
@@ -52,6 +51,15 @@ public class Evento {
 			throw new Exception("error:the inserted date is already passed");
 			
 		}
+		
+	}
+
+	public String getFormattedStrDate() {
+		
+		String strFormattedDate = getData().getDayOfMonth() + "/"
+				+ getData().getMonthValue() +"/"
+				+ getData().getYear();
+		return strFormattedDate;
 		
 	}
 
@@ -76,10 +84,25 @@ public class Evento {
 		return reservedPlaces;
 	}
 
-	protected void setReservedPlaces(Integer reservedPlaces) {
-		this.reservedPlaces = reservedPlaces;
+	protected void setReservedPlaces(Integer reservedPlaces)throws Exception {
+		
+		if (reservedPlaces < getTotalPlaces()) {
+			
+			this.reservedPlaces = reservedPlaces;
+		}
+		
+		else {
+			
+			throw new Exception("error: cannot reserve more places than "+ getTotalPlaces() );
+		}
 	}
 	
+	public boolean hasReservedPlaces() {
+		
+		if(getReservedPlaces() > 0) return true;
+		else return false;
+	}
+
 	public void prenota() throws Exception {
 		
 		LocalDate now = LocalDate.now();
@@ -133,14 +156,6 @@ public class Evento {
 		
 	}
 	
-	public String getFormattedStrDate() {
-		
-		String strFormattedDate = getData().getDayOfMonth() + "/"
-				+ getData().getMonthValue() +"/"
-				+ getData().getYear();
-		return strFormattedDate;
-		
-	}
 	
 	public int getAvailablePlaces() {
 		
@@ -154,11 +169,6 @@ public class Evento {
 		else return false;
 	}
 	
-	public boolean hasReservedPlaces() {
-		
-		if(getReservedPlaces() > 0) return true;
-		else return false;
-	}
 	
 	@Override
 	
